@@ -1,19 +1,14 @@
 class Solution {
 public:
     int maxDepth(string s) {
-        int parenCount=0;
         int ans=INT_MIN;
-        for(int i=0; i<s.size(); i++){
-            if(s[i]=='('){
-                parenCount++;
-            }
-            if(s[i]==')'){
-                
-                parenCount--;
-            }
-            ans=max(ans,parenCount);
+        stack<int>st;
+        for(char c:s){
+            if(c=='(')st.push(c);
+            else if(c==')')st.pop();
+            int currSize=st.size();
+            ans=max(ans,currSize);
         }
         return ans;
-
     }
 };
