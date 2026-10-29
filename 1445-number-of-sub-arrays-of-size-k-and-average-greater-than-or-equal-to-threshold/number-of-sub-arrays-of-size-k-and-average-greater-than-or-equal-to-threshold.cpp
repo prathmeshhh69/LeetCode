@@ -11,8 +11,7 @@ public:
                r++;
             }
             if((r-l)==k){
-                int average=currSum/k;
-                if(average >= threshold)subarrayCount++;
+                if(currSum>= k*threshold)subarrayCount++;
                 currSum-=arr[l];
                 l++;
             }
