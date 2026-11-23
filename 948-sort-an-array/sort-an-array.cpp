@@ -1,43 +1,40 @@
 class Solution {
 public:
-    void merge(vector<int>&nums,int start,int mid,int end){
-        int n= nums.size();
-        int i=start,j=mid+1;
+    void merge(vector<int>& nums, int low,int mid, int high){
         vector<int>temp;
-        while(i<=mid && j<=end){
-            if(nums[i]<nums[j]){
-                temp.push_back(nums[i]);
-                i++;
-            }else{
-                temp.push_back(nums[j]);
-                j++;
+        int left=low;
+        int right=mid+1;
+        while(left<=mid && right<=high){
+            if(nums[left]<=nums[right]){
+                temp.push_back(nums[left]);
+                left++;
+            }
+            else{
+                temp.push_back(nums[right]);
+                right++;
             }
         }
-        while(i<=mid){
-            temp.push_back(nums[i]);
-            i++;
+            while(left<=mid){
+                temp.push_back(nums[left]);
+                left++;
+            }
+            while(right<=high){
+                temp.push_back(nums[right]);
+                right++;
+            }
+            for(int i=low; i<=high; i++){
+                nums[i]=temp[i-low];
+            }
         }
-        while(j<=end){
-            temp.push_back(nums[j]);
-            j++;
-        }
-
-        for(int k=0; k<temp.size(); k++){
-            nums[k+start]=temp[k];
-        }
-    }
-    void mergeSort(vector<int>&nums,int start,int end){
-        if(start<end){
-            int mid=start+(end-start)/2;
-            mergeSort(nums,start,mid);
-            mergeSort(nums,mid+1,end);
-            merge(nums,start,mid,end);
-        }
+    void recursivemerge(vector<int>& nums,int low, int high){
+         if(low==high) return;
+         int mid=(low+high)/2;
+         recursivemerge(nums,low,mid);
+         recursivemerge(nums,mid+1,high);
+         merge(nums,low,mid,high);
     }
     vector<int> sortArray(vector<int>& nums) {
-        int n=nums.size();
-        int start=0,end=n-1;
-        mergeSort(nums,start,end);
+        recursivemerge(nums,0,nums.size()-1);
         return nums;
     }
 };
